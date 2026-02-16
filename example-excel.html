@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel-like Editable Table</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .excel-table {
+        border-collapse: collapse;
+        margin: 20px auto;
+        min-width: 40vw;
+    }
+
+    .excel-table th,
+    .excel-table td {
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        text-align: left;
+        cursor: pointer;
+        background-color: #fff;
+    }
+
+    .excel-table th {
+        background-color: #eee;
+        cursor: default;
+    }
+
+    .excel-table td:focus {
+        outline: 2px solid #00f;
+    }
+
+    .excel-table-header {
+        position: sticky;
+        top: 0;
+    }
+
+    .excel-table th:nth-of-type(1),
+    .excel-table td:nth-of-type(1) {
+        background-color: #f7f7f7;
+        position: sticky;
+        left: 0;
+        z-index: 1;
+    }
+
+    .excel-table th:nth-of-type(1) {
+        z-index: 2;
+    }
+    
+</style>
+</head>
+
+<body>
+
+<table class="excel-table" contenteditable="false">
+    <thead>
+        <!-- Column Headers -->
+        <tr class="excel-table-header">
+            <th></th> <!-- Empty top-left cell -->
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        <!-- Data Rows -->
+    </tbody>
+</table>
+
+<script>
+    // Function to create editable cells
+    function createEditableCell(content = '') {
+        const td = document.createElement('td');
+        td.textContent = content;
+        td.setAttribute('contenteditable', 'true');
+        td.addEventListener('blur', () => {
+            td.textContent = td.textContent.trim(); // Trim whitespace
+        });
+        return td;
+    }
+
+    // Function to add a row to the table
+    function addRow(rowNumber, rowData = []) {
+        const tableBody = document.querySelector('.excel-table tbody');
+        const tr = document.createElement('tr');
+        tr.appendChild(createEditableCell(rowNumber)); // Row Header
+
+        // Adding row items
+        rowData.forEach((dataItem) => {
+            tr.appendChild(createEditableCell(dataItem));
+        });
+
+        tableBody.appendChild(tr);
+    }
+
+    // Fill the table with some example data
+    function initializeTable() {
+        ['1', '2', '3', '4', '5'].forEach((rowNumber, index) => {
+            addRow(rowNumber, [`Data ${index + 1}A`, `Data ${index + 1}B`, `Data ${index + 1}C`, `Data ${index + 1}D`]);
+        });
+    }
+
+    // Initialize the table when the DOM content is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeTable();
+    });
+</script>
+
+</body>
+
+</html>
