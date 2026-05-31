@@ -1,6 +1,10 @@
 # 🇰🇿 QazLang - Programming in Kazakh Language
 
-**The world's first programming language with native Kazakh syntax**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.7%2B-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![Made in Kazakhstan](https://img.shields.io/badge/Made%20in-Kazakhstan%20%F0%9F%87%B0%F0%9F%87%BF-00AFCA.svg)](https://github.com/stukenov/qazlang)
+
+**The world's first programming language with native Kazakh syntax** — write code in Kazakh, Russian, and more, breaking the English-only barrier.
 
 QazLang (Қазақ тілінде бағдарламалау тілі) is a revolutionary programming framework that allows developers to write code in their native Kazakh language. Breaking the barrier of English-only programming languages, QazLang empowers Kazakh speakers to express computational logic in their mother tongue.
 
@@ -131,8 +135,30 @@ WHERE type = (SELECT 'material_type' FROM material_types);
 ```bash
 git clone https://github.com/stukenov/qazlang.git
 cd qazlang
-python lang-parser.py your_file.qalang
 ```
+
+No external dependencies are required — `lang-parser.py` uses only the Python standard library (`re`).
+
+### Run a Program
+
+The `lang-parser.py` interpreter reads a native-language source file and generates HTML. Drive it from a short Python script (mirroring the usage example included at the bottom of `lang-parser.py`):
+
+```python
+from importlib import import_module
+parser_module = import_module("lang-parser")  # or: exec(open("lang-parser.py").read())
+
+parser = parser_module.RuLangParser()
+
+with open("РуЯзык.руяз", "r", encoding="utf-8") as file:
+    source = file.read()
+
+html = parser.parse(source)
+
+with open("output.html", "w", encoding="utf-8") as file:
+    file.write(html)
+```
+
+The parser recognizes native-language UI keywords directly from the source — for example `СОЗДАТЬ СТРАНИЦУ` (CREATE PAGE), `СОЗДАТЬ ФОРМУ` (CREATE FORM), `ПОЛЕ ВВОДА` (INPUT FIELD), and `КНОПКА` (BUTTON) — and emits the corresponding HTML (`example-excel.html` shows sample output). The `.qalang` and `.qazsql` files demonstrate the Kazakh syntax shown above.
 
 ## 📚 File Extensions
 
@@ -232,6 +258,14 @@ The parser converts native language syntax to executable code:
 - [ ] Web-based playground
 - [ ] Documentation in Kazakh and English
 - [ ] Tutorial series for beginners
+
+## 🔗 Related projects
+
+QazLang is part of a broader Kazakh-language technology stack aimed at bringing modern computing to native speakers:
+
+- **[kazakh-nlp-toolkit](https://github.com/stukenov/kazakh-nlp-toolkit)** — natural language processing tools for Kazakh
+- **[slm](https://github.com/stukenov/slm)** — small language model work for low-resource languages
+- **[turkic-tts](https://github.com/stukenov/turkic-tts)** — text-to-speech for Turkic languages
 
 ## 📄 License
 
